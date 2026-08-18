@@ -1,0 +1,599 @@
+<Window x:Class="PokeTokenBar.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="PokeTokenBar"
+        Width="460"
+        Height="700"
+        MinWidth="420"
+        MinHeight="620"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen"
+        Background="#FFFDFB"
+        Closing="OnClosing">
+    <Window.Resources>
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="PanelBrush" Color="#FFF7EA" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#D98C22" />
+        <SolidColorBrush x:Key="AccentSoftBrush" Color="#FFECC6" />
+        <SolidColorBrush x:Key="BorderSoftBrush" Color="#E8DED0" />
+        <SolidColorBrush x:Key="TextBrush" Color="#252525" />
+        <SolidColorBrush x:Key="MutedBrush" Color="#6F6A63" />
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#D8CDBD" />
+            <Setter Property="Foreground" Value="#2B2B2B" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="MinHeight" Value="28" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonChrome"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonChrome" Property="Background" Value="#FFF7EA" />
+                                <Setter TargetName="ButtonChrome" Property="BorderBrush" Value="#D98C22" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonChrome" Property="Background" Value="#FFE8B8" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#9D9992" />
+                                <Setter TargetName="ButtonChrome" Property="Background" Value="#F3F0EA" />
+                                <Setter TargetName="ButtonChrome" Property="BorderBrush" Value="#E4DDD3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MutedText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style x:Key="SectionHeading" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+        <Style x:Key="CardBorder" TargetType="Border">
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSoftBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+        <Style x:Key="IconBadge" TargetType="Border">
+            <Setter Property="Width" Value="42" />
+            <Setter Property="Height" Value="42" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Background" Value="{StaticResource PanelBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSoftBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+    </Window.Resources>
+    <Border Padding="18">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,4,0,18">
+                <TextBlock Text="PokeTokenBar"
+                           FontSize="24"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding StatusText}"
+                           FontSize="11"
+                           Foreground="#777"
+                           HorizontalAlignment="Center"
+                           Margin="0,4,0,0" />
+            </StackPanel>
+
+            <Grid Grid.Row="1" MinHeight="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                            Visibility="{Binding IsHomeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Border Width="154"
+                            Height="154"
+                            CornerRadius="8"
+                            Background="#F2F2F2"
+                            BorderBrush="#DDDDDD"
+                            BorderThickness="1"
+                            HorizontalAlignment="Center">
+                        <Grid>
+                            <Image Source="{Binding CompanionImage}"
+                                   Width="124"
+                                   Height="124"
+                                   Stretch="Uniform"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                            <TextBlock Text="?"
+                                       FontSize="42"
+                                       Foreground="#999"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CompanionImage}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+
+                    <TextBlock Text="{Binding SectionTitle}"
+                               Style="{StaticResource SectionHeading}"
+                               HorizontalAlignment="Center"
+                               Margin="0,16,0,4" />
+                    <ProgressBar Value="{Binding ProgressValue, Mode=OneWay}"
+                                 Minimum="0"
+                                 Maximum="1"
+                                 Height="10"
+                                 Width="240"
+                                 Margin="0,8,0,0" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,6,0,0">
+                        <TextBlock Text="{Binding CompanionSubtitle}"
+                                   FontSize="12"
+                                   Foreground="#555" />
+                        <TextBlock Text="  " />
+                        <TextBlock Text="{Binding ProgressText}"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   Foreground="#555" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding SectionDescription}"
+                               FontSize="12"
+                               Foreground="#777"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               MaxWidth="280"
+                               Margin="0,6,0,0"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding NextGoalText}"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="#444"
+                               TextAlignment="Center"
+                               Margin="0,8,0,0"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding LastUpdatedText}"
+                               FontSize="10"
+                               Foreground="#888"
+                               TextAlignment="Center"
+                               Margin="0,4,0,0"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <Grid Grid.Row="0"
+                      Visibility="{Binding IsCollectionSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TabControl>
+                        <TabItem Header="Pokédex">
+                            <DockPanel Margin="0,8,0,0">
+                                <StackPanel DockPanel.Dock="Top">
+                                    <TextBlock Text="{Binding CollectionSummary}"
+                                               FontWeight="SemiBold"
+                                               HorizontalAlignment="Center"
+                                               Margin="0,0,0,8" />
+                                    <TextBox Text="{Binding CollectionSearchText, UpdateSourceTrigger=PropertyChanged}"
+                                             Margin="0,0,0,6"
+                                             ToolTip="Search name or number" />
+                                    <UniformGrid Columns="3" Margin="0,0,0,8">
+                                        <ComboBox ItemsSource="{Binding GenerationFilters}" SelectedItem="{Binding GenerationFilter}" Margin="0,0,4,0" />
+                                        <ComboBox ItemsSource="{Binding RarityFilters}" SelectedItem="{Binding RarityFilter}" Margin="2,0" />
+                                        <ComboBox ItemsSource="{Binding OwnershipFilters}" SelectedItem="{Binding OwnershipFilter}" Margin="4,0,0,0" />
+                                    </UniformGrid>
+                                </StackPanel>
+
+                                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
+                                    <Button Content="Previous" Command="{Binding PreviousCollectionPageCommand}" />
+                                    <TextBlock Text="{Binding CollectionPageText}" VerticalAlignment="Center" Margin="10,0" />
+                                    <Button Content="Next" Command="{Binding NextCollectionPageCommand}" />
+                                </StackPanel>
+
+                                <ListBox ItemsSource="{Binding PokedexPageItems}"
+                                         BorderThickness="0"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Width="88"
+                                                    Height="92"
+                                                    Margin="3"
+                                                    Padding="4"
+                                                    BorderBrush="#E1E1E1"
+                                                    BorderThickness="1"
+                                                    CornerRadius="6">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Opacity" Value="1" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Owned}" Value="False">
+                                                                <Setter Property="Opacity" Value="0.42" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <StackPanel HorizontalAlignment="Center">
+                                                    <Image Source="{Binding Sprite}" Width="38" Height="38" Stretch="Uniform" />
+                                                    <TextBlock Text="{Binding DisplayNumber}" FontSize="10" Foreground="#777" HorizontalAlignment="Center" />
+                                                    <TextBlock Text="{Binding DisplayName}" FontSize="10" FontWeight="SemiBold" TextAlignment="Center" TextTrimming="CharacterEllipsis" Width="76" />
+                                                    <TextBlock Text="{Binding Rarity}" FontSize="9" Foreground="#777" HorizontalAlignment="Center" />
+                                                    <TextBlock Text="✨" FontSize="10" HorizontalAlignment="Center">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding ShinyOwned}" Value="True">
+                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </DockPanel>
+                        </TabItem>
+                        <TabItem Header="Catch Log">
+                            <DockPanel Margin="0,8,0,0">
+                                <TextBlock DockPanel.Dock="Top"
+                                           Text="{Binding CatchLogSummary}"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,8" />
+                                <ListBox ItemsSource="{Binding CatchLogItems}" BorderThickness="0">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Padding="8" Margin="0,0,0,6" BorderBrush="#E1E1E1" BorderThickness="1" CornerRadius="6">
+                                                <DockPanel>
+                                                    <Image Source="{Binding Sprite}" Width="46" Height="46" Stretch="Uniform" Margin="0,0,10,0" />
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                                                        <TextBlock Text="{Binding PathSummary}" FontSize="11" Foreground="#555" TextWrapping="Wrap" />
+                                                        <TextBlock Text="{Binding Detail}" FontSize="10" Foreground="#777" TextWrapping="Wrap" />
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </DockPanel>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+
+                <Grid Grid.Row="0"
+                      Visibility="{Binding IsBagSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Text="{Binding EconomyMessage}"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10" />
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding BagItems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CardBorder}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="34" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Style="{StaticResource IconBadge}" VerticalAlignment="Center">
+                                            <Grid>
+                                                <Image Source="{Binding DisplayIconImage}" Width="30" Height="30" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding BadgeText}" FontSize="13" FontWeight="SemiBold" Foreground="#9A620F" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding DisplayIconImage}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Grid>
+                                        </Border>
+                                        <StackPanel Grid.Column="1" Margin="10,0,8,0">
+                                            <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" />
+                                            <TextBlock Text="{Binding Description}" FontSize="11" Foreground="#666" />
+                                            <TextBlock Text="{Binding CountText}" FontSize="12" Foreground="#444" Margin="0,5,0,0" />
+                                        </StackPanel>
+                                        <Button Grid.Column="2"
+                                                Content="{Binding ButtonText}"
+                                                Command="{Binding DataContext.UseBagItemCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                CommandParameter="{Binding Kind}"
+                                                IsEnabled="{Binding CanUse}"
+                                                VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+
+                <DockPanel Grid.Row="0"
+                           Visibility="{Binding IsShopSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                        <TextBlock Text="Available tokens" Foreground="#666" HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding WalletBalance}" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding WalletDetail}" FontSize="10" Foreground="#777" HorizontalAlignment="Center" />
+                        <Border Margin="0,8,0,0" Padding="8" Background="#FFF4DA" CornerRadius="6"
+                                Visibility="{Binding HasPendingEggPurchase, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding PendingEggPurchaseText}" TextWrapping="Wrap" FontSize="12" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                                    <Button Content="Cancel" Command="{Binding CancelEggPurchaseCommand}" />
+                                    <Button Content="Confirm" Command="{Binding ConfirmEggPurchaseCommand}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding ShopItems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="9"
+                                            Margin="0,0,0,7"
+                                            BorderBrush="#E1E1E1"
+                                            BorderThickness="1"
+                                            CornerRadius="6">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="34" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0" Style="{StaticResource IconBadge}" VerticalAlignment="Center">
+                                                <Grid>
+                                                    <Image Source="{Binding DisplayIconImage}" Width="30" Height="30" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    <TextBlock Text="{Binding BadgeText}" FontSize="13" FontWeight="SemiBold" Foreground="#9A620F" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DisplayIconImage}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Border>
+                                            <StackPanel Grid.Column="1" Margin="10,0,8,0">
+                                                <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" />
+                                                <TextBlock Text="{Binding Description}" FontSize="11" Foreground="#666" />
+                                                <TextBlock Text="{Binding Price}" FontSize="12" Foreground="#444" Margin="0,5,0,0" />
+                                            </StackPanel>
+                                            <Button Grid.Column="2"
+                                                    Content="{Binding ButtonText}"
+                                                    Command="{Binding DataContext.BuyCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                    CommandParameter="{Binding Kind}"
+                                                    IsEnabled="{Binding CanBuy}"
+                                                    VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+
+                <ScrollViewer Grid.Row="0"
+                              VerticalScrollBarVisibility="Auto"
+                              Visibility="{Binding IsSettingsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding SettingsMessage}"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,10" />
+                        <Border Padding="10" Margin="0,0,0,8" BorderBrush="#E1E1E1" BorderThickness="1" CornerRadius="6">
+                            <StackPanel>
+                                <TextBlock Text="General" FontWeight="SemiBold" Margin="0,0,0,6" />
+                                <CheckBox Content="Launch with Windows" IsChecked="{Binding LaunchWithWindows}" Margin="0,3" />
+                                <CheckBox Content="Start minimized to tray" IsChecked="{Binding StartMinimizedToTray}" Margin="0,3" />
+                                <CheckBox Content="Show token usage in tray tooltip" IsChecked="{Binding ShowTokenUsageInTray}" Margin="0,3" />
+                                <CheckBox Content="Show Pokemon on desktop" IsChecked="{Binding ShowDesktopCompanion}" Margin="0,3" />
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <TextBlock Text="Refresh" VerticalAlignment="Center" Width="82" />
+                                    <ComboBox ItemsSource="{Binding RefreshIntervalOptions}"
+                                              DisplayMemberPath="Label"
+                                              SelectedValuePath="Minutes"
+                                              SelectedValue="{Binding RefreshIntervalMinutes}"
+                                              Width="150" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <TextBlock Text="Pet size" VerticalAlignment="Center" Width="82" />
+                                    <ComboBox ItemsSource="{Binding DesktopCompanionSizeOptions}"
+                                              DisplayMemberPath="Label"
+                                              SelectedValuePath="Pixels"
+                                              SelectedValue="{Binding DesktopCompanionSize}"
+                                              Width="150" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Padding="10" Margin="0,0,0,8" BorderBrush="#E1E1E1" BorderThickness="1" CornerRadius="6">
+                            <StackPanel>
+                                <TextBlock Text="Notifications" FontWeight="SemiBold" Margin="0,0,0,6" />
+                                <CheckBox Content="Notifications enabled" IsChecked="{Binding NotificationsEnabled}" Margin="0,3" />
+                                <CheckBox Content="Egg hatch" IsChecked="{Binding HatchNotifications}" Margin="0,3" />
+                                <CheckBox Content="Evolution" IsChecked="{Binding EvolutionNotifications}" Margin="0,3" />
+                                <CheckBox Content="Graduation" IsChecked="{Binding GraduationNotifications}" Margin="0,3" />
+                                <CheckBox Content="Shiny hatch" IsChecked="{Binding ShinyNotifications}" Margin="0,3" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Padding="10" Margin="0,0,0,8" BorderBrush="#E1E1E1" BorderThickness="1" CornerRadius="6">
+                            <StackPanel>
+                                <TextBlock Text="Data" FontWeight="SemiBold" Margin="0,0,0,6" />
+                                <TextBlock Text="{Binding DataLocation}" FontSize="10" Foreground="#666" TextWrapping="Wrap" />
+                                <WrapPanel Margin="0,8,0,0">
+                                    <Button Content="Open Data" Command="{Binding OpenDataFolderCommand}" />
+                                    <Button Content="Open Cache" Command="{Binding OpenCacheFolderCommand}" />
+                                    <Button Content="Open Logs" Command="{Binding OpenLogsFolderCommand}" />
+                                    <Button Content="Export Save" Command="{Binding ExportSaveCommand}" />
+                                    <Button Content="Import Save" Command="{Binding ImportSaveCommand}" />
+                                    <Button Content="Clear Cache" Command="{Binding ClearCacheCommand}" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Padding="10" BorderBrush="#E1E1E1" BorderThickness="1" CornerRadius="6">
+                            <TextBlock Text="{Binding AboutText}" FontSize="10" Foreground="#666" TextWrapping="Wrap" />
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <Grid Grid.Row="1" Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Today" Foreground="#555" FontSize="11" Margin="0,2" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TodayTokens}" FontWeight="SemiBold" FontSize="11" Margin="0,2" />
+
+                    <TextBlock Grid.Row="1" Text="5h" Foreground="#555" FontSize="11" Margin="0,2" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding LastFiveHoursTokens}" FontWeight="SemiBold" FontSize="11" Margin="0,2" />
+
+                    <TextBlock Grid.Row="2" Text="Week" Foreground="#555" FontSize="11" Margin="0,2" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding WeekTokens}" FontWeight="SemiBold" FontSize="11" Margin="0,2" />
+
+                    <TextBlock Grid.Row="3" Text="Month" Foreground="#555" FontSize="11" Margin="0,2" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding MonthTokens}" FontWeight="SemiBold" FontSize="11" Margin="0,2" />
+
+                    <TextBlock Grid.Row="4" Text="Lifetime" Foreground="#777" FontSize="10" Margin="0,4,0,0" />
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding LifetimeTokens}" Foreground="#777" FontSize="10" FontWeight="SemiBold" Margin="0,4,0,0" />
+                </Grid>
+            </Grid>
+
+            <Border Grid.Row="2"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="0,1,0,0"
+                    Padding="0,12,0,0"
+                    Margin="0,18,0,0">
+                <UniformGrid Columns="5">
+                    <Button Content="Home" Command="{Binding NavigateCommand}" CommandParameter="Home">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsHomeSelected}" Value="True">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="Background" Value="#FFEEC8" />
+                                        <Setter Property="BorderBrush" Value="#D89B32" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Collection" Command="{Binding NavigateCommand}" CommandParameter="Pokedex">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCollectionSelected}" Value="True">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="Background" Value="#FFEEC8" />
+                                        <Setter Property="BorderBrush" Value="#D89B32" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Bag" Command="{Binding NavigateCommand}" CommandParameter="Bag">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsBagSelected}" Value="True">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="Background" Value="#FFEEC8" />
+                                        <Setter Property="BorderBrush" Value="#D89B32" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Shop" Command="{Binding NavigateCommand}" CommandParameter="Shop">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsShopSelected}" Value="True">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="Background" Value="#FFEEC8" />
+                                        <Setter Property="BorderBrush" Value="#D89B32" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Settings" Command="{Binding NavigateCommand}" CommandParameter="Settings">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSettingsSelected}" Value="True">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="Background" Value="#FFEEC8" />
+                                        <Setter Property="BorderBrush" Value="#D89B32" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </UniformGrid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <PlatformTarget>x64</PlatformTarget>
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <InformationalVersion>0.1.0</InformationalVersion>
+    <Product>PokeTokenBar for Windows</Product>
+    <Authors>PokeTokenBar Windows contributors</Authors>
+    <ApplicationIcon>Resources\PokeTokenBar.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="Resources\PokeTokenBar.ico" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Resources\Items\Mint.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

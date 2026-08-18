@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B83B90F6-6C99-437C-8499-0721861F0513}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeTokenBar.Tests", "tests\PokeTokenBar.Tests\PokeTokenBar.Tests.csproj", "{AE277D2A-1427-40FC-A283-ACA4A4B70C66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ECD0CE34-88B5-46E7-9651-ACB89CBC5EA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeTokenBar", "src\PokeTokenBar\PokeTokenBar.csproj", "{E4C69580-57AE-4AAA-9E95-8A6E41A3543A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE277D2A-1427-40FC-A283-ACA4A4B70C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE277D2A-1427-40FC-A283-ACA4A4B70C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE277D2A-1427-40FC-A283-ACA4A4B70C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE277D2A-1427-40FC-A283-ACA4A4B70C66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4C69580-57AE-4AAA-9E95-8A6E41A3543A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C69580-57AE-4AAA-9E95-8A6E41A3543A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4C69580-57AE-4AAA-9E95-8A6E41A3543A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4C69580-57AE-4AAA-9E95-8A6E41A3543A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AE277D2A-1427-40FC-A283-ACA4A4B70C66} = {B83B90F6-6C99-437C-8499-0721861F0513}
+		{E4C69580-57AE-4AAA-9E95-8A6E41A3543A} = {ECD0CE34-88B5-46E7-9651-ACB89CBC5EA8}
+	EndGlobalSection
+EndGlobal

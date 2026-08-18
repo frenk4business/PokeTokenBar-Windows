@@ -1,0 +1,59 @@
+<Window x:Class="PokeTokenBar.Views.FloatingCompanionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        SizeToContent="Manual"
+        Topmost="False"
+        ShowActivated="False"
+        MouseLeftButtonDown="OnMouseLeftButtonDown"
+        MouseLeftButtonUp="OnMouseLeftButtonUp"
+        MouseMove="OnMouseMove">
+    <Border Background="Transparent"
+            Width="{Binding DesktopCompanionSize}"
+            Height="{Binding DesktopCompanionSize}">
+        <Border.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Open PokeTokenBar" Click="OnOpenClicked" />
+                <MenuItem Header="Hide Companion" Click="OnHideClicked" />
+                <Separator />
+                <MenuItem Header="Size">
+                    <MenuItem Header="48 px" Tag="48" Click="OnSizeClicked" />
+                    <MenuItem Header="64 px" Tag="64" Click="OnSizeClicked" />
+                    <MenuItem Header="96 px" Tag="96" Click="OnSizeClicked" />
+                    <MenuItem Header="128 px" Tag="128" Click="OnSizeClicked" />
+                    <MenuItem Header="160 px" Tag="160" Click="OnSizeClicked" />
+                    <MenuItem Header="192 px" Tag="192" Click="OnSizeClicked" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Exit" Click="OnExitClicked" />
+            </ContextMenu>
+        </Border.ContextMenu>
+        <Grid ToolTip="{Binding FloatingCompanionTooltip}">
+            <Image Source="{Binding CompanionImage}"
+                   Width="{Binding DesktopCompanionSize}"
+                   Height="{Binding DesktopCompanionSize}"
+                   Stretch="Uniform"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor" />
+            <TextBlock Text="?"
+                       FontSize="24"
+                       Foreground="#777"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CompanionImage}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+    </Border>
+</Window>
